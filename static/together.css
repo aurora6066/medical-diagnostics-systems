@@ -1,0 +1,83 @@
+* {
+    margin: 0px;
+    padding: 0px;
+}
+
+.navigation {
+    display: inline-block;
+    /* background-color: #002140; */
+    background-color: #304156;
+    width: 250px;
+    height: 1800px;
+    /* display:flex; */
+}
+
+div>ul>li>ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+div>ul>li {
+    text-align: center;
+    flex-direction: column;
+    vertical-align: middle;
+    list-style-type: none;
+}
+
+div>ul>li:first-child {
+    display: flex;
+    justify-content: center;
+    width: 250px;
+    height: 65px;
+    font: italic 22px bold 宋体;
+    background-color: #304156;
+    /* color: #409eff; */
+    color: #bfcbd9;
+}
+
+div>ul>li:nth-child(n+2)>a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    /*弹性盒子元素在主轴（横轴）方向上的对齐方式，当设置其属性值为center时，表示项目位于容器的中心 */
+    text-decoration: none;
+    box-sizing: border-box;
+    /* 内减模式 */
+    width: 250px;
+    height: 50px;
+    min-height: 50px;
+    /* color: aqua; */
+    color: #bfcbd9;
+    border-top: blueviolet dashed 1px;
+    background-color: #304156;
+    /* background-color: #002140; */
+    font: normal 18px normal 宋体;
+}
+
+div>ul>li>a:hover {
+    background-color: rgb(67, 67, 154) !important;
+    color: #409eff;
+    /* color: greenyellow; */
+}
+/* li>a:active{
+    background-color: blue;
+} */
+
+.selected {
+    /* background-color: blue; */
+    background-color: #001528;
+}
+
+
+th,
+td {
+    border: 1px solid #add9c0;
+    border-width: 1px 1px 1px 1px;
+    padding: 0px 0px;
+    text-align: center;
+}
+
+button {
+    border-radius: 50px;
+}

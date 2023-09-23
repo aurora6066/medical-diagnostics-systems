@@ -1,0 +1,171 @@
+/* 右侧内容 */
+.content {
+    position: absolute;
+    display: inline-block;
+    vertical-align: top;
+    box-sizing: border-box;
+    width: 85%;
+    height: 800px;
+    background-color: gray;
+    opacity: 0.5;
+}
+
+/* 内容顶部栏 */
+.top {
+    display: inline-block;
+    width: 100%;
+    height: 65px;
+    background-color: #f4fdff;
+    border-bottom: #429192 dashed 2px;
+}
+
+.log-out {
+    margin-left: auto;
+    margin-top: 20px;
+    font-size: 22px;
+    font-weight: bold;
+    width: 100px;
+    color: rgb(174, 48, 60);
+    margin-right: 50px;
+}
+
+.log-out:hover {
+    color: rgb(255, 0, 0);
+}
+
+/* index页主内容区 */
+.content-main {
+    width: 100%;
+    height: 700px;
+    background-color: #fff;
+    padding: 20px;
+    margin: 15px 10px;
+}
+
+.content-title {
+    margin: 0 auto;
+    width: 100%;
+    height: 50px;
+}
+
+#patient-information,
+#medical-guidelines {
+    display: inline-block;
+    vertical-align: top;
+    height: 50px;
+    width: 400px;
+    margin: 10px 8%;
+    /* background-color: pink; */
+}
+
+.page {
+    display: none;
+}
+
+.page.active {
+    display: inline-block;
+}
+
+a img {
+    display: inline-block;
+    height: 10px;
+    width: 10px;
+}
+
+.fold-li>li>a {
+    display: flex;
+    text-decoration: none;
+    flex-direction: row-reverse;
+    align-items: center;
+    /* 右侧对齐 */
+    height: 40px;
+    padding-right: 30px;
+    color: antiquewhite;
+}
+
+.query:hover {
+    color: #409eff;
+}
+
+
+/* table, */
+tr {
+    border: 1px solid;
+    border-collapse: collapse;
+}
+
+table {
+    width: 1000px;
+    table-layout: fixed;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+tr,
+td {
+    height: 30px;
+    padding: 0 30px;
+}
+
+#file-drop-zone,
+#upload {
+    /* display: inline-block;  */
+    width: 300px;
+    height: 100px;
+    border: 2px dashed #ccc;
+    background-color: rgb(32, 132, 194);
+    border-radius: 10px;
+    padding-top: 60px;
+    margin-bottom: 20px;
+    text-align: center; 
+    display: flex;
+    justify-content: center; 
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.diagnosis-btn{
+    background-color: #409eff;
+    height: 35px;
+    width: 300px;
+    color: black;
+    font-weight: bolder;
+    border-radius: 50px;
+}
+
+.select {
+    margin: 10px auto;
+    width: 200px;
+    height: 50px;
+}
+
+select {
+    /* 改 */
+    border: 1px solid #409eff;
+    /* border: 1px solid #5cb85c; */
+    width: 118px;
+    height: 34px;
+}
+
+button {
+    border-radius: 50px;
+}
+
+#diagnosis>div>div>span {
+    margin: 0 50px;
+}
+
+.inputInfo {
+    margin: 0 center;
+    text-align: center;
+}
+
+.inputInfo>div {
+    margin: 10px;
+}
+
+.inputInfo span {
+    font: italic bold 20px '宋体';
+    color: aqua;
+}

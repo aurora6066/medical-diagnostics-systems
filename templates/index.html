@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>主页</title>
+    <link rel="stylesheet" href="../static/together.css">
+    <link rel="stylesheet" href="../static/index.css">
+    <link rel="icon" href="../static/Process.png">
+    <style>
+        
+    </style>
+</head>
+
+<body onload="initfunc()">
+    <div>
+        <!-- 导航栏 -->
+        <div class="navigation">
+            <ul>
+                <li>医疗诊断辅助系统</li>
+                <li><a class="query" href="#me">我的</a></li>
+                <li>
+                    <a onclick="unfold(foldguide)">医疗指南&nbsp;</a>
+                    <ul id="foldguide" class="fold-li" style="display: none;">
+                        <li><a class="query" href="#guidelines_up">上传医疗指南</a></li>
+                        <li><a class="query" href="#guidelines_que">指南问答</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a class="query" href="#diagnosis">辅助诊断&nbsp;</a>
+                </li>
+                <li>
+                    <a onclick="unfold(foldAI)">知识库&nbsp;</a>
+                    <ul id="foldAI" class="fold-li" style="display: none;">
+                        <!-- by Wang -->
+                        <!-- <li><a class="query" href="#aidiag_1" onclick="getDiagnosisStandard()">诊断标准</a></li> -->
+                        <li><a class="query" href="#aidiag_2" onclick="getDiagnosisProcess()">诊疗流程</a></li>
+                        <!-- <li><a class="query" href="#aidiag_3" onclick="getExamination()">辅助检查</a></li> -->
+                        <li><a class="query" href="#aidiag_4" onclick="getCase()">病历参考</a></li>
+                        <li><a class="query" href="#aidiag_5" onclick="getAnswer()">辅助问答</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <div class="top">
+                <div class="log-out">
+                    退出登录
+                </div>
+            </div >
+                
+            <div id="processIMG" style='text-align:center;' class='content-main'>
+                <h2 color="skyblue">本系统使用指南</h2>
+                <img src="../static/Process.png" height="580px" alt="">
+            </div>
+            <div id="me" class="content-main page">
+                <span>首页/工作台</span>
+                <div class="content-title">
+                    <div id="medical-guidelines">
+                        <!-- <form action="{{ url_for('medical_guidelines') }}"></form>  -->
+                        <button type="button" style="width: 100%; height:50px;" onclick="medicalGuidelines()">
+                            <span style="font-size: large; color: #409eff;">点击查看已上传的医疗指南信息</span>
+                        </button>
+                    </div>
+
+                    <div id="patient-information">
+                        <button type="button" style="width: 100%; height:50px;" onclick="patientInformation()">
+                            <span style="font-size: large; color: #409eff;">点击查看病患信息</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- 上传的医疗指南信息表 -->
+                <table style="display:none;" id="mtable">
+                    <thead>
+                        <tr>
+                            <th>文件名</th>
+                            <th>疾病类型</th>
+                            <th>上传日期</th>
+                            <th colspan="2">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="wtbody">
+
+                    </tbody>
+                </table>
+                <table align="center" cellspacing="0" style="display:none;" id="ptable">
+                    <thead>
+                        <tr>
+                            <th>姓名</th>
+                            <th>年龄</th>
+                            <th>疾病类型</th>
+                            <th>问诊日期</th>
+                            <th colspan="2">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="pwtbody">
+
+                    </tbody>
+                </table>
+
+            </div>
+            <div id="guidelines_up" class="content-main page">
+                <span>upload/上传医疗指南</span>
+                <div style="max-width: 400px; margin:30px auto;">
+                    <div style="padding: 30px auto;" >
+                        <input type="file" id="upload" name="upfile">
+                        <!-- <span style="color:rgb(128, 255, 0);font-size:large;">将文件拖拽到这里或者点击上传文件</span> -->
+                    </div>
+                    <button type="button" onclick="uploadFile()" class="diagnosis-btn">上传医疗指南并查看一阶逻辑表达式</button>
+                    <span id="errupload" style="color: red;"></span>
+                </div>
+                <div style="margin-left:300px;">
+                    <!-- <div>一阶逻辑表达式为：</div> -->
+                    <div id="logic" style="max-width: 500px; display: inline-block; background-color: skyblue;">
+
+                    </div>
+                </div>
+            </div>
+            <div id="guidelines_que" class="content-main page">
+                <span>upload/指南问答</span>
+                <div class='select'>
+                    <label for="Queselect">请先选择指南：</label>
+                    <select name="Queselect" id="Queselect">
+                        <option value="1">1</option>
+                    </select>
+                </div>
+                <!-- 提交指南问题 -->
+                <div style="width: 80%; margin-top:30px; margin-left: 200px;">
+                    <form>
+                        <textarea name="Quearea" id="Quearea" cols="100" rows="10" placeholder="请输入问题"></textarea>
+                        <button onclick="summitArea()"
+                            style="display: block; margin-left: 320px; width:85px; height:30px; background-color:#5cb85c"
+                            type="button">发送</button>
+                    </form>
+                </div>
+                <div id="answer" style="width: 80%; margin-top:30px; margin-left: 200px;">
+                    <!-- 回答输出 -->
+                </div>
+            </div>
+            <div id="diagnosis" class="content-main page">
+                <span>诊断/工作台</span>
+                <div>
+                    <div style="width: 800px; height:50px; margin: 0 300px; font-size: larger;font-weight: bolder;">
+                        <span id="description" style="color:blue">症状描述</span>
+                        <span id="Initial_diagnosis">初步诊断</span>
+                        <span id="opinion">诊断意见</span>
+                    </div>
+                    <div class="inputInfo">
+                        <div><span>姓名：</span><input type="text" placeholder="请输入患者姓名" id="name"></div>
+                        <div><span>年龄：</span><input type="text" placeholder="请输入患者年龄" id="age"></div>
+                        <div><span>症状：</span><textarea cols="100" rows="10" placeholder="请输入患者症状" id="dias"></textarea>
+                        </div>
+                        <div><button onclick="summitPatientInfo()" type="button"
+                                style="background-color:#5cb85c;width:100px;">确定</button></div>
+                    </div>
+                    <div class="outputInfo" style="display: none;">
+                        <div style="margin: 0px 150px;">诊断结果：</div>
+                        <div
+                            style="background-color: skyblue; width:800px;height: 300px; margin: 20px auto;padding: 20px;">
+                            <span id="outspan">诊断中。。。请稍后</span>
+                        </div>
+                        <div style="margin: 0 auto; text-align: center;">
+                            <button onclick="Prestep()" type="button"
+                                style="margin: 20px; background-color:#5cb85c;width:80px;">上一步</button>
+                            <button onclick="Nextstep()" type="button"
+                                style="margin: 20px; background-color:#5cb85c;width:80px;">下一步</button>
+                        </div>
+                    </div>
+                    <div class="opinionInfo" style="display:none;">
+                        <span style="margin: 0px 150px;">下一步诊疗建议：</span>
+                        <div
+                            style="background-color: skyblue; width:800px;height: 300px; margin: 20px auto;padding: 20px;">
+                            <span id="opinspan">诊断中。。。请稍后</span>
+                        </div>
+                        <div style="margin: 0 auto; text-align: center;">
+                            <button onclick="PPrestep()" type="button"
+                                style="margin: 20px; background-color:#5cb85c;width:80px;">上一步</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- by Wang -->
+            <!-- <div id="aidiag_1" class="content-main page">
+                <span>知识库/诊断标准</span>
+                <br><br><br>
+                <div style="text-align: center; max-width: 1000px; margin: 0 auto; color: #5cb85c;">
+                    <p id="diagnosis_standard_text">这里放置文本</p>
+                </div>
+            </div> -->
+            <div id="aidiag_2" class="content-main page">
+                <span>知识库/诊疗流程</span>
+                <br><br><br>
+                <div style="text-align: center;">
+                    <img height="1300px" alt="flow_chart" src="../static/flow_chart_of_Bronchitis.png"
+                        style="display: inline-block; width: 600px;" />
+                </div>
+                <!-- <br><br><br>
+                <div style="text-align: center; max-width: 1000px; margin: 0 auto; color: #5cb85c;">
+                    <p id="diagnosis_flow_text">这里放置文本</p>
+                </div> -->
+            </div>
+            <!-- <div id="aidiag_3" class="content-main page">
+                <span>知识库/辅助检查</span>
+                <br><br><br>
+                <div style="text-align: center; max-width: 1000px; margin: 0 auto; color: #5cb85c;">
+                    <p id="examination_text">这里放置文本</p>
+                </div>
+
+            </div> -->
+            <div id="aidiag_4" class="content-main page">
+                <span>知识库/病历参考</span>
+                <br><br><hr><br>
+                <!-- 病历列表 -->
+                <table id="ctable">
+                    <thead>
+                        <tr>
+                            <th>文件名</th>
+                            <th>疾病类型</th>
+                            <th>年龄</th>
+                            <th>性别</th>
+                            <th>病历日期</th>
+                            <th colspan="2">操作</th>
+                        </tr>
+                    </thead>
+                    <tbody id="ctbody">
+                    </tbody>
+                </table>
+
+            </div>
+            <div id="aidiag_5" class="content-main page">
+                <span>知识库/智能问答</span>
+                <br><br><br>
+                <!-- 问题输入 -->
+                <div style="width: 80%; margin-top:30px; margin-left: 200px;">
+                    <form>
+                        <textarea name="Askarea" id="Askarea" cols="100" rows="10"
+                            placeholder="请输入问题，我将会给您提供尽可能准确的回答"></textarea>
+                        <br><br>
+                        <button onclick="summitASK()"
+                            style="display: block; margin-left: 320px; width:85px; height:30px; background-color:#5cb85c"
+                            type="button">获取答案</button>
+                        <br><br>
+                        <textarea name="Ansarea" id="Ansarea" cols="100" rows="10" placeholder="答案将在这里显示"></textarea>
+                    </form>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</body>
+
+<!-- 引入jquery -->
+<script src="http://code.jquery.com/jquery-latest.js"></script>
+<script>
+    // 开始进行页面进行的初始化 下拉菜单更新
+    function initfunc() {
+        Que = document.getElementById('Queselect');
+        let temp = '';
+        $.ajax({
+            type: 'get',
+            url: '/questionSelect',
+            async: true,  // 是否异步
+            success: function (res) {
+                console.log(res + 'res');
+                for (let i = 0; i < res.length; i++) {
+                    for (let j = 0; j < res[i].length; j++) {
+                        temp +=
+                            '<option value=  ' + res[i][j] + ' >' + res[i][j] + '</option>';
+                    }
+                }
+                Que.innerHTML = temp;
+            },
+            error: function () {
+                console.log('error')
+            }
+
+        })
+    }
+    // 上传医疗指南并给诊断意见
+    function uploadFile() {
+        var oFiles = document.getElementById("upload").files[0];
+        console.log(oFiles);
+        var formFile = new FormData();
+        formFile.append("file", oFiles); //加入文件对象
+        $.ajax({
+            url: '/uploadfile',
+            type: 'POST',
+            data: formFile,
+            dataType: "json",
+            async: true,  // 是否异步
+            processData: false,
+            contentType: false,
+            cache: false,
+            success: function (res) {
+                console.log(res['path']);
+                console.log(res['mes']);
+                // 输出提取的一阶逻辑
+                logic = document.getElementById('logic');
+                logic.innerHTML = res['mes'];
+
+            },
+            error: function () {
+                console.log('error')
+                document.querySelector('#errupload').innerHTML = 'error';
+            }
+        })
+    }
+
+    // 提交诊断的病人信息
+    function summitPatientInfo() {
+        let name = document.querySelector('.inputInfo #name').value;
+        let age = document.querySelector('.inputInfo #age').value;
+        let dias = document.querySelector('.inputInfo #dias').value;
+        $.ajax({
+            type: 'get',
+            url: '/diagnosisInfo',
+            data: { 'name': name, 'age': age, 'dias': dias },
+            async: true,  // 是否异步
+            success: function (res) {
+                document.querySelector('#outspan').innerHTML = res;
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+        document.getElementById('description').style.color = 'rgb(53, 54, 58)';
+        document.getElementById('Initial_diagnosis').style.color = 'blue';
+        document.querySelector('.outputInfo').style.display = 'block';
+        document.querySelector('.inputInfo').style.display = 'none';
+    }
+
+    // 初步诊断下一步 意见
+    function Nextstep() {
+        let name = document.querySelector('.inputInfo #name').value;
+        let age = document.querySelector('.inputInfo #age').value;
+        let dias = document.querySelector('.inputInfo #dias').value;
+        $.ajax({
+            type: 'get',
+            url: '/opinionInfo',
+            data: { 'name': name, 'age': age, 'dias': dias },
+            async: true,  // 是否异步
+            success: function (res) {
+                document.querySelector('#opinspan').innerHTML = res;
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+        document.getElementById('opinion').style.color = 'blue';
+        document.getElementById('Initial_diagnosis').style.color = 'rgb(53, 54, 58)';
+        document.querySelector('.outputInfo').style.display = 'none';
+        document.querySelector('.opinionInfo').style.display = 'block';
+    }
+
+
+    // 初步诊断上一步
+    function Prestep() {
+        document.getElementById('description').style.color = 'blue';
+        document.getElementById('Initial_diagnosis').style.color = 'rgb(53, 54, 58)';
+        document.querySelector('.outputInfo').style.display = 'none';
+        document.querySelector('.inputInfo').style.display = 'block';
+    }
+    // 意见上一步
+    function PPrestep() {
+        document.getElementById('Initial_diagnosis').style.color = 'blue';
+        document.getElementById('opinion').style.color = 'rgb(53, 54, 58)';
+        document.querySelector('.opinionInfo').style.display = 'none';
+        document.querySelector('.outputInfo').style.display = 'block';
+    }
+
+    // 根据医疗指南回答问题将答案输出到页面
+    function summitArea() {
+        var options = $("#Queselect option:selected");  //获取选中的option
+        value = options.val();   //拿到选中项的值value
+        option = options.text();   //拿到选中项的文本
+        console.log(value, option);
+
+        // 将文本域内容发送到后台
+        let Data = document.getElementById('Quearea').value;
+        console.log(Data);
+        $.ajax({
+            type: 'get',
+            url: '/Quearea',
+            data: { 'areadata': Data },
+            async: true,  // 是否异步
+            success: function (res) {
+                anw = document.getElementById('answer');
+                anw.innerHTML = res;
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    }
+
+    // 展示指南信息
+    mtable = document.getElementById("mtable");
+    ptable = document.getElementById('ptable');
+    function medicalGuidelines() {
+        let temp = '';
+        $.ajax({
+            type: 'post',
+            url: '/medical_guidelines',
+            async: true,  // 是否异步
+            success: function (res) {
+                let tbody = document.getElementById("wtbody");
+                for (let i = 0; i < res.length; i++) {
+                    console.log(i);
+                    console.log(res[i][0]);
+                    temp +=
+                        '<tr>' +
+                        '<td>' + res[i][0] + '</td>' +
+                        '<td>' + res[i][1] + '</td>' +
+                        '<td>' + res[i][2] + '</td>' +
+                        '<td>' + '<button onclick="seepatient(' + res[i][0] + ')" style="background-color:skyblue;width:50px;">查看</button>' + '</td>' +
+                        '<td>' + '<button onclick="delete()" style="background-color:pink;width:50px">删除</button>' + '</td>' +
+                        '</tr>';
+                }
+                tbody.innerHTML = temp;
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+        mtable.style.display = 'block';
+        document.querySelector('#medical-guidelines button').style.backgroundColor = '#ffc833';
+        ptable.style.display = 'none';
+        document.querySelector('#patient-information button').style.backgroundColor = '#fff';
+    }
+
+    // 展示病人信息
+    function patientInformation() {
+        let temp = '';
+        $.ajax({
+            type: 'post',
+            url: '/patient_information',
+            async: true,  // 是否异步
+            success: function (res) {
+                console.log(res)
+                let tbody = document.getElementById("pwtbody");
+                for (let i = 0; i < res.length; i++) {
+                    console.log(i);
+                    console.log(res[i][0]);
+                    temp +=
+                        '<tr>' +
+                        '<td>' + res[i][0] + '</td>' +
+                        '<td>' + res[i][1] + '</td>' +
+                        '<td>' + res[i][2] + '</td>' +
+                        '<td>' + res[i][3] + '</td>' +
+                        '<td>' + '<button onclick="see()" style="background-color:skyblue;width:50px;">查看</button></a>' + '</td>' +
+                        '<td>' + '<button onclick="delete()" style="background-color:pink;width:50px">删除</button></a>' + '</td>' +
+                        '</tr>';
+                }
+                tbody.innerHTML = temp;
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+        mtable.style.display = 'none';
+        document.querySelector('#medical-guidelines button').style.backgroundColor = '#fff';
+        ptable.style.display = 'block';
+        document.querySelector('#patient-information button').style.backgroundColor = '#ffc833';
+    }
+
+    // 退出登陆
+    let logOut = document.querySelector(".log-out");
+    logOut.addEventListener('click', function () {
+        window.location.href = "{{ url_for('login') }}"; // login.html
+    })
+
+    // 折叠导航栏菜单
+    function unfold(foldId) {
+        // console.log(foldId);
+        // console.log(foldId.style.display);
+        if (foldId.style.display === "none") {
+            // console.log(2);
+            foldId.style.display = "block";
+        }
+        else {
+            foldId.style.display = "none";
+        }
+    }
+
+    // 获取所有query类，进行内容展示隐藏
+    var navLinks = document.querySelectorAll('.query');//.navigation>ul>li>a
+    console.log(navLinks);
+    var pages = document.querySelectorAll('.page');
+    for (var i = 0; i < navLinks.length; i++) {
+        var link = navLinks[i];
+
+        link.addEventListener('click', function (e) {
+            tipimg = document.getElementById('processIMG');
+            tipimg.style.display = 'none';
+            e.preventDefault();
+
+            var targetId = this.getAttribute('href');
+            var targetPage = document.querySelector(targetId);
+            // console.log("tpage" + targetPage);
+            // 去除所有标签的可见属性
+            for (var j = 0; j < pages.length; j++) {
+                pages[j].classList.remove('active');
+                navLinks[j].style.backgroundColor = '#304156';
+            }
+            this.style.backgroundColor = 'blue';
+            // 为当前选定的标签设置为可见属性
+            targetPage.classList.add('active');
+        });
+    }
+
+    
+    // 获取诊断标准
+    diagnosis_standard_text = document.getElementById('diagnosis_standard_text');
+    function getDiagnosisStandard() {
+        $.ajax({
+            type: 'post',
+            url: '/diagnosisStandard',
+            async: true,  // 是否异步
+            success: function (res) {
+                diagnosis_standard_text.innerText = res;
+                diagnosis_standard_text.setAttribute('align', 'left');
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    }
+
+    // 获取诊疗程序
+    diagnosis_flow_text = document.getElementById("diagnosis_flow_text");
+    function getDiagnosisProcess() {
+        $.ajax({
+            type: 'post',
+            url: '/diagnosisProcess',
+            async: true,  // 是否异步
+            success: function (res) {
+                diagnosis_flow_text.innerText = res;
+                diagnosis_flow_text.setAttribute('align', 'left');
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    }
+
+    // 获取辅助检查
+    examination_text = document.getElementById("examination_text");
+    function getExamination() {
+        $.ajax({
+            type: 'post',
+            url: '/examination',
+            async: true,  // 是否异步
+            success: function (res) {
+                examination_text.innerText = res;
+                examination_text.setAttribute('align', 'left');
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    }
+
+    // 获取病历
+    /*
+    <th>文件名</th>
+    <th>疾病类型</th>
+    <th>年龄</th>
+    <th>性别</th>
+    <th>病历日期</th>
+    <th>操作</th>*/
+    ctable = document.getElementById('ctable');
+    function getCase() {
+        let temp = '';
+        $.ajax({
+            type: 'post',
+            url: '/cases',
+            async: true,  // 是否异步
+            success: function (res) {
+                let tbody = document.getElementById("ctbody");
+                for (let i = 0; i < res.length; i++) {
+                    console.log(i);
+                    console.log(res[i][0]);
+                    temp +=
+                        '<tr>' +
+                        '<td>' + res[i][0] + '</td>' +
+                        '<td>' + res[i][1] + '</td>' +
+                        '<td>' + res[i][2] + '</td>' +
+                        '<td>' + res[i][3] + '</td>' +
+                        '<td>' + res[i][4] + '</td>' +
+                        '<td>' + '<button onclick="see()" style="background-color:skyblue;width:50px">查看</button>' + '</td>' +
+                        '<td>' + '<button onclick="delete()" style="background-color:pink;width:50px">删除</button>' + '</td>' +
+                        '</tr>';
+                }
+                tbody.innerHTML = temp;
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+        ctable.style.display = 'block';
+    }
+
+    function summitASK() {
+        ask = document.getElementById('Askarea').value;
+        $.ajax({
+            type: 'get',
+            url: '/freeASK',
+            data: { 'ask': ask },
+            async: true,  // 是否异步
+            success: function (res) {
+                document.querySelector('#Ansarea').value = res;
+            },
+            error: function () {
+                console.log('error')
+            }
+        })
+    }
+
+
+</script>
+
+</html>
